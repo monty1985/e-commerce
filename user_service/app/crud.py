@@ -3,7 +3,7 @@ from .models import UserCreate, UserUpdate
 from .database import User
 from uuid import UUID
 
-def create_user(db: session, user: UserCreate, password_hash:str):
+def create_user(db: session, user: UserCreate, password_hash: str):
     db_user = User(
         email=user.email,
         mobile_number= user.mobile_number,
@@ -18,7 +18,8 @@ def create_user(db: session, user: UserCreate, password_hash:str):
     return db_user
 
 def get_user(db: session, user_id: UUID):
-    return db.query(User).filter(User.user_id == user_id).first()
+    user_id_bytes = user_id.bytes
+    return db.query(User).filter(User.user_id == user_id_bytes).first()
 
 def update_user(db: session, user_id: UUID, user: UserUpdate):
     db_user = db.query(User).filter(User.user_id == user_id).first()
