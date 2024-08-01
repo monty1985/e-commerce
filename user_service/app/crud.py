@@ -18,11 +18,10 @@ def create_user(db: session, user: UserCreate, password_hash: str):
     return db_user
 
 def get_user(db: session, user_id: UUID):
-    user_id_bytes = user_id.bytes
-    return db.query(User).filter(User.user_id == user_id_bytes).first()
+    return db.query(User).filter(User.user_id == user_id.bytes).first()
 
 def update_user(db: session, user_id: UUID, user: UserUpdate):
-    db_user = db.query(User).filter(User.user_id == user_id).first()
+    db_user = db.query(User).filter(User.user_id == user_id.bytes).first()
     if db_user: # checking its not empty
         for key, value in user.dict(exclude_unset=True).items():
             setattr(db_user, key, value)
@@ -31,7 +30,7 @@ def update_user(db: session, user_id: UUID, user: UserUpdate):
     return db_user
 
 def delete_user(db: session, user_id: UUID):
-    db_user = db.query(User).filter(User.user_id == user_id).first()
+    db_user = db.query(User).filter(User.user_id == user_id.bytes).first()
     if db_user:
         db.delete(db_user)
         db.commit()

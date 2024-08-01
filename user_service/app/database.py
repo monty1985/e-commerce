@@ -23,5 +23,7 @@ class User(Base):
     address = Column(JSON, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
     updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+    auth_provider = Column(String, nullable=True)
+    provider_id = Column(String, nullable=True)
 
 Base.metadata.create_all(bind=engine)
